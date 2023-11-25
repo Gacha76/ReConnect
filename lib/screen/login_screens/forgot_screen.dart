@@ -1,4 +1,4 @@
-import 'package:call_app/screen/login_screens/login_page.dart';
+import 'package:call_app/constants/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -10,12 +10,12 @@ class ForgotPasswordPage extends StatefulWidget {
 }
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
-  //TODO: Check why is this commented
-  //bool showProgress = false;
+  bool noError = true;
   bool visible = false;
   final _auth = FirebaseAuth.instance;
   final _formkey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,18 +83,23 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             textInputAction: TextInputAction.done,
                             validator: (value) {
                               if (value!.isEmpty) {
+                                setState(() {
+                                  noError = false;
+                                });
                                 return "Email cannot be empty";
                               } else if (!RegExp(
                                       "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                                   .hasMatch(value)) {
+                                setState(() {
+                                  noError = false;
+                                });
                                 return ("Please enter a valid email");
                               } else {
                                 return null;
                               }
                             },
                             onSaved: (value) {
-                              //TODO: Check why is this commented
-                              //emailController.text = value!;
+                              emailController.text = value!;
                             },
                             keyboardType: TextInputType.emailAddress,
                           ),
@@ -107,16 +112,19 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             children: [
                               MaterialButton(
                                 shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(20.0))),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0)),
+                                ),
                                 elevation: 5.0,
                                 height: 40,
                                 onPressed: () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const LoginPage(),
-                                    ),
+                                  setState(() {
+                                    noError = true;
+                                    visible = true;
+                                  });
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                    loginRoute,
+                                    (route) => false,
                                   );
                                 },
                                 color: Colors.blue,
@@ -135,11 +143,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                 elevation: 5.0,
                                 height: 40,
                                 onPressed: () {
-                                  //TODO: Do something here
-                                  /*Forgotpassword(emailController.text);
                                   setState(() {
+                                    noError = true;
                                     visible = true;
-                                  });*/
+                                  });
+                                  forgotPassword(emailController.text);
                                 },
                                 color: Colors.blue,
                                 child: const Text(
@@ -158,7 +166,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             maintainSize: true,
                             maintainAnimation: true,
                             maintainState: true,
-                            visible: visible,
+                            visible: (visible && noError),
                             child: const CircularProgressIndicator(),
                           ),
                         ],
@@ -174,16 +182,18 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     );
   }
 
-  /*void forgotPassword(String email) async {
+  void forgotPassword(String email) async {
     if (_formkey.currentState!.validate()) {
       await _auth
           .sendPasswordResetEmail(email: email)
           .then((uid) => {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => LoginPage()))
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  loginRoute,
+                  (route) => false,
+                ),
               })
-              //TODO: Error handle stuff
+          //TODO: Error handle stuff
           .catchError((e) {});
     }
-  }*/
+  }
 }

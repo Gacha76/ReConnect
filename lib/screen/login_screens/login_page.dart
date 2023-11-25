@@ -1,5 +1,4 @@
-import 'package:call_app/screen/login_screens/forgot_screen.dart';
-import 'package:call_app/screen/login_screens/register_page.dart';
+import 'package:call_app/constants/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +11,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _isObscure3 = true;
+  bool noError = true;
   bool visible = false;
   final _formkey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
@@ -72,10 +72,16 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           validator: (value) {
                             if (value!.isEmpty) {
+                              setState(() {
+                                noError = false;
+                              });
                               return "Email cannot be empty";
                             } else if (!RegExp(
                                     "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
                                 .hasMatch(value)) {
+                              setState(() {
+                                noError = false;
+                              });
                               return ("Please enter a valid email");
                             } else {
                               return null;
@@ -95,8 +101,8 @@ class _LoginPageState extends State<LoginPage> {
                           decoration: InputDecoration(
                             suffixIcon: IconButton(
                                 icon: Icon(_isObscure3
-                                    ? Icons.visibility
-                                    : Icons.visibility_off),
+                                    ? Icons.visibility_off
+                                    : Icons.visibility),
                                 onPressed: () {
                                   setState(() {
                                     _isObscure3 = !_isObscure3;
@@ -120,8 +126,14 @@ class _LoginPageState extends State<LoginPage> {
                           validator: (value) {
                             RegExp regex = RegExp(r'^.{6,}$');
                             if (value!.isEmpty) {
+                              setState(() {
+                                noError = false;
+                              });
                               return "Password cannot be empty";
                             } else if (!regex.hasMatch(value)) {
+                              setState(() {
+                                noError = false;
+                              });
                               return ("please enter valid password min. 6 character");
                             } else {
                               return null;
@@ -144,11 +156,13 @@ class _LoginPageState extends State<LoginPage> {
                           elevation: 5.0,
                           height: 40,
                           onPressed: () {
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const ForgotPasswordPage(),
-                              ),
+                            setState(() {
+                              noError = true;
+                              visible = true;
+                            });
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                              forgotPasswordRoute,
+                              (route) => false,
                             );
                           },
                           color: Colors.blue,
@@ -175,13 +189,13 @@ class _LoginPageState extends State<LoginPage> {
                               height: 40,
                               onPressed: () {
                                 setState(() {
+                                  noError = true;
                                   visible = true;
                                 });
-                                //TODO: Implement login functionality
-                                /*signIn(
+                                signIn(
                                   emailController.text,
                                   passwordController.text,
-                                );*/
+                                );
                               },
                               color: Colors.blue,
                               child: const Text(
@@ -200,11 +214,13 @@ class _LoginPageState extends State<LoginPage> {
                               elevation: 5.0,
                               height: 40,
                               onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const RegisterPage(),
-                                  ),
+                                setState(() {
+                                  noError = true;
+                                  visible = true;
+                                });
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                  registerRoute,
+                                  (route) => false,
                                 );
                               },
                               color: Colors.blue,
@@ -224,7 +240,7 @@ class _LoginPageState extends State<LoginPage> {
                           maintainSize: true,
                           maintainAnimation: true,
                           maintainState: true,
-                          visible: visible,
+                          visible: (visible && noError),
                           child: const CircularProgressIndicator(),
                         ),
                       ],
@@ -239,21 +255,21 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  /*void signIn(String email, String password) async {
+  void signIn(String email, String password) async {
     if (_formkey.currentState!.validate()) {
       try {
-        UserCredential userCredential =
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
+        await _auth.signInWithEmailAndPassword(
           email: email,
           password: password,
         );
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomePage(),
-          ),
-        );
+        if (context.mounted) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            homeRoute,
+            (route) => false,
+          );
+        }
       } on FirebaseAuthException catch (e) {
+        //TODO: Implement popup for each error
         if (e.code == 'user-not-found') {
           print('No user found for that email.');
         } else if (e.code == 'wrong-password') {
@@ -261,5 +277,5 @@ class _LoginPageState extends State<LoginPage> {
         }
       }
     }
-  }*/
+  }
 }

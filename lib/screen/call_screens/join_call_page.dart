@@ -9,77 +9,181 @@ class JoinCallPage extends StatefulWidget {
 }
 
 class _JoinCallPageState extends State<JoinCallPage> {
-  static const trimEdge = 20;
-  final TextEditingController _callIdController = TextEditingController();
-  final TextEditingController _userIdController = TextEditingController();
-  final TextEditingController _userNameController = TextEditingController();
+  final _formkey = GlobalKey<FormState>();
+  final TextEditingController callIdController = TextEditingController();
+  final TextEditingController userIdController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              width: MediaQuery.of(context).size.width - trimEdge,
-              child: TextFormField(
-                controller: _callIdController,
-                decoration: const InputDecoration(
-                  hintText: "Please enter your call ID",
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            SizedBox(
-              width: MediaQuery.of(context).size.width - trimEdge,
-              child: TextFormField(
-                controller: _userIdController,
-                decoration: const InputDecoration(
-                  hintText: "Please enter your user ID",
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            SizedBox(
-              width: MediaQuery.of(context).size.width - trimEdge,
-              child: TextFormField(
-                controller: _userNameController,
-                decoration: const InputDecoration(
-                  hintText: "Please enter your username",
-                ),
-              ),
-            ),
-            const SizedBox(height: 30),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: <Color>[
-                            Color(0xFF0D47A1),
-                            Color(0xFF1976D2),
-                            Color(0xFF42A5F5),
-                          ],
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Center(
+                child: Container(
+                  margin: const EdgeInsets.all(12),
+                  child: Form(
+                    key: _formkey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(
+                          height: 30,
                         ),
-                      ),
+                        const Text(
+                          "Join a Call",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 50,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          controller: callIdController,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Call ID',
+                            enabled: true,
+                            contentPadding: const EdgeInsets.only(
+                              left: 14.0,
+                              bottom: 8.0,
+                              top: 8.0,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Call ID cannot be empty";
+                            } else {
+                              return null;
+                            }
+                          },
+                          onSaved: (value) {
+                            callIdController.text = value!;
+                          },
+                          keyboardType: TextInputType.number,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          controller: userIdController,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'User ID',
+                            enabled: true,
+                            contentPadding: const EdgeInsets.only(
+                              left: 14.0,
+                              bottom: 8.0,
+                              top: 8.0,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "User ID cannot be empty";
+                            } else {
+                              return null;
+                            }
+                          },
+                          onSaved: (value) {
+                            userIdController.text = value!;
+                          },
+                          keyboardType: TextInputType.text,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          controller: userNameController,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Username',
+                            enabled: true,
+                            contentPadding: const EdgeInsets.only(
+                              left: 14.0,
+                              bottom: 8.0,
+                              top: 8.0,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Username cannot be empty";
+                            } else {
+                              return null;
+                            }
+                          },
+                          onSaved: (value) {
+                            userNameController.text = value!;
+                          },
+                          keyboardType: TextInputType.text,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        MaterialButton(
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20.0),
+                            ),
+                          ),
+                          elevation: 5.0,
+                          height: 40,
+                          onPressed: () {
+                            _moveToCall(
+                              callIdController.text,
+                              userIdController.text,
+                              userNameController.text,
+                            );
+                          },
+                          color: Colors.blue,
+                          child: const Text(
+                            "Join now",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
                     ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      _moveToCall();
-                    },
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.all(16.0),
-                      textStyle: const TextStyle(fontSize: 20),
-                    ),
-                    child: const Text("Join the call"),
-                  ),
-                ],
+                ),
               ),
             ),
           ],
@@ -88,51 +192,18 @@ class _JoinCallPageState extends State<JoinCallPage> {
     );
   }
 
-  void _moveToCall() {
-    if (_callIdController.text == '') {
-      _showPopUp('call ID');
-    } else if (_userIdController.text == '') {
-      _showPopUp('user ID');
-    } else if (_userNameController.text == '') {
-      _showPopUp("username");
-    } else {
+  void _moveToCall(String callID, String userID, String username) {
+    if (_formkey.currentState!.validate()) {
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => CallPage(
-            callID: _callIdController.text,
-            userID: _userIdController.text,
-            username: _userNameController.text,
+            callID: callIdController.text,
+            userID: userIdController.text,
+            username: userNameController.text,
           ),
         ),
       );
     }
-  }
-
-  Future<void> _showPopUp(String attribute) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Enter all your details'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: [
-                Text("Please enter your $attribute"),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              child: const Text('Ok'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 }

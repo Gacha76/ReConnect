@@ -1,4 +1,4 @@
-import 'package:call_app/enum/menu_actions.dart';
+import 'package:call_app/constants/enum.dart';
 import 'package:call_app/screen/call_screens/join_call_page.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +15,7 @@ class _MainAppState extends State<HomePage> {
     const Text('page 1'),
     const Text('page 2'),
     const JoinCallPage(),
+    const Text('page 4'),
   ];
 
   @override
@@ -47,6 +48,7 @@ class _MainAppState extends State<HomePage> {
         child: _pages[_selectedIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         onTap: (value) {
           setState(() {
             _selectedIndex = value;
@@ -55,7 +57,7 @@ class _MainAppState extends State<HomePage> {
         currentIndex: _selectedIndex,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_2),
+            icon: Icon(Icons.connect_without_contact),
             label: 'Connect',
           ),
           BottomNavigationBarItem(
@@ -65,6 +67,10 @@ class _MainAppState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.call),
             label: 'Call',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_2),
+            label: 'Profile',
           ),
         ],
       ),
