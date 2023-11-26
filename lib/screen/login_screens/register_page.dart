@@ -20,6 +20,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmpassController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController rollNumberController = TextEditingController();
   bool _isObscure = true;
   bool _isObscure2 = true;
   var options = [
@@ -63,6 +65,102 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           const SizedBox(
                             height: 50,
+                          ),
+                          TextFormField(
+                            controller: nameController,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: 'Name',
+                              enabled: true,
+                              contentPadding: const EdgeInsets.only(
+                                left: 14.0,
+                                bottom: 8.0,
+                                top: 8.0,
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                setState(() {
+                                  noError = false;
+                                });
+                                return "Name cannot be empty";
+                              } else if (!RegExp("^[a-zA-Z]").hasMatch(value)) {
+                                setState(() {
+                                  noError = false;
+                                });
+                                return ("No numbers or special symbols allowed");
+                              } else {
+                                return null;
+                              }
+                            },
+                            onChanged: (value) {},
+                            keyboardType: TextInputType.text,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            controller: rollNumberController,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: 'Roll number',
+                              enabled: true,
+                              contentPadding: const EdgeInsets.only(
+                                left: 14.0,
+                                bottom: 8.0,
+                                top: 8.0,
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                setState(() {
+                                  noError = false;
+                                });
+                                return "Roll number cannot be empty";
+                              } else if (role == "Student" &&
+                                  !RegExp("^[0-9{2}]+[a-zA-Z{3}]+[0-9{3}]")
+                                      .hasMatch(value)) {
+                                setState(() {
+                                  noError = false;
+                                });
+                                return ("Please enter a valid roll number");
+                              } else if (role == "Teacher" &&
+                                  !RegExp("^[0-9a-zA-Z]").hasMatch(value)) {
+                                setState(() {
+                                  noError = false;
+                                });
+                                return ("Please enter a valid teacher ID");
+                              } else {
+                                return null;
+                              }
+                            },
+                            onChanged: (value) {},
+                            keyboardType: TextInputType.text,
+                          ),
+                          const SizedBox(
+                            height: 20,
                           ),
                           TextFormField(
                             controller: emailController,
@@ -271,7 +369,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 },
                                 color: Colors.blue,
                                 child: const Text(
-                                  "Login",
+                                  "Back to login",
                                   style: TextStyle(
                                     fontSize: 20,
                                   ),
@@ -293,6 +391,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                     emailController.text,
                                     passwordController.text,
                                     role,
+                                    nameController.text,
+                                    rollNumberController.text,
                                   );
                                 },
                                 color: Colors.blue,
@@ -304,6 +404,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                               ),
                             ],
+                          ),
+                          const SizedBox(
+                            height: 10,
                           ),
                           Visibility(
                             maintainSize: true,
@@ -325,34 +428,65 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  void signUp(String email, String password, String role) async {
+  void signUp(
+    String email,
+    String password,
+    String role,
+    String name,
+    String rollNumber,
+  ) async {
     if (_formkey.currentState!.validate()) {
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {postDetailsToFirestore(email, role)})
+          .then((value) => {
+                postDetailsToFirestore(
+                  email,
+                  role,
+                  name,
+                  rollNumber,
+                )
+              })
           .catchError((e) {
         //TODO: popup box that an error occurred
       });
     }
   }
 
-  postDetailsToFirestore(String email, String role) async {
+  postDetailsToFirestore(
+    String email,
+    String role,
+    String name,
+    String rollNumber,
+  ) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
     UserModel userModel = UserModel();
     userModel.email = email;
     userModel.uid = user!.uid;
     userModel.role = role;
+    userModel.name = name;
+    userModel.rollNumber = rollNumber;
+
     await firebaseFirestore
         .collection("users")
         .doc(user.uid)
         .set(userModel.toMap());
 
-    if (context.mounted) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        loginRoute,
-        (route) => false,
-      );
+    switch (role) {
+      case 'Teacher':
+        if (context.mounted) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            teacherVerifyRoute,
+            (route) => false,
+          );
+        }
+      default:
+        if (context.mounted) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            loginRoute,
+            (route) => false,
+          );
+        }
     }
   }
 }

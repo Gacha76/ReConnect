@@ -177,9 +177,6 @@ class _JoinCallPageState extends State<JoinCallPage> {
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
                       ],
                     ),
                   ),

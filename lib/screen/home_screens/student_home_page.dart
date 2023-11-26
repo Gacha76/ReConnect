@@ -1,15 +1,18 @@
 import 'package:call_app/constants/enum.dart';
+import 'package:call_app/constants/routes.dart';
 import 'package:call_app/screen/call_screens/join_call_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class StudentHomePage extends StatefulWidget {
+  const StudentHomePage({super.key});
 
   @override
-  State<HomePage> createState() => _MainAppState();
+  State<StudentHomePage> createState() => _MainAppState();
 }
 
-class _MainAppState extends State<HomePage> {
+class _MainAppState extends State<StudentHomePage> {
+  final _auth = FirebaseAuth.instance;
   int _selectedIndex = 0;
   final _pages = [
     const Text('page 1'),
@@ -22,15 +25,15 @@ class _MainAppState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Alumni Network'),
+        title: const Text('Welcome!'),
+        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 23),
         actions: [
           PopupMenuButton<MenuAction>(
+            iconColor: Colors.white,
             onSelected: (value) async {
               switch (value) {
                 case MenuAction.logout:
-                  break;
-                case MenuAction.profile:
-                  break;
+                  signout();
               }
             },
             itemBuilder: (context) {
@@ -48,6 +51,7 @@ class _MainAppState extends State<HomePage> {
         child: _pages[_selectedIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.blue,
         type: BottomNavigationBarType.fixed,
         onTap: (value) {
           setState(() {
@@ -75,5 +79,26 @@ class _MainAppState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  void signout() async {
+    try {
+      await _auth.signOut();
+      if (context.mounted) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          loginRoute,
+          (route) => false,
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      //TODO: Implement popup for each error
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      } else {
+        print(e.code);
+      }
+    }
   }
 }

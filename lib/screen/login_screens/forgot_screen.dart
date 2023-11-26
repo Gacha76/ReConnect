@@ -129,7 +129,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                 },
                                 color: Colors.blue,
                                 child: const Text(
-                                  "Login",
+                                  "Back to login",
                                   style: TextStyle(
                                     fontSize: 20,
                                   ),

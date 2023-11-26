@@ -1,6 +1,7 @@
 import 'package:call_app/constants/routes.dart';
 import 'package:call_app/firebase_options.dart';
-import 'package:call_app/screen/home_page.dart';
+import 'package:call_app/screen/home_screens/student_home_page.dart';
+import 'package:call_app/screen/home_screens/teacher_home_screen.dart';
 import 'package:call_app/screen/login_screens/forgot_screen.dart';
 import 'package:call_app/screen/login_screens/login_page.dart';
 import 'package:call_app/screen/login_screens/register_page.dart';
@@ -27,13 +28,15 @@ class MainApp extends StatelessWidget {
       title: "Alumni Network",
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        appBarTheme: const AppBarTheme(color: Colors.blue),
       ),
       home: const LoginPage(),
       routes: {
         loginRoute: (context) => const LoginPage(),
         registerRoute: (context) => const RegisterPage(),
         forgotPasswordRoute: (context) => const ForgotPasswordPage(),
-        homeRoute: (context) => const HomePage(),
+        studentHomeRoute: (context) => const StudentHomePage(),
+        teacherHomeRoute: (context) => const TeacherHomePage(),
         teacherVerifyRoute: (context) => const TeacherVerifyPage(),
         studentVerifyRoute: (context) => const StudentVerifyPage(),
       },

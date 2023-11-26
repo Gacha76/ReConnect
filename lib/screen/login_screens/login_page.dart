@@ -1,4 +1,5 @@
 import 'package:call_app/constants/routes.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _auth = FirebaseAuth.instance;
+  final _store = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -262,11 +264,46 @@ class _LoginPageState extends State<LoginPage> {
           email: email,
           password: password,
         );
-        if (context.mounted) {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            homeRoute,
-            (route) => false,
-          );
+        final userData = await _store
+            .collection('users')
+            .doc(_auth.currentUser!.uid)
+            .get()
+            .then((value) => value.data());
+
+        if (!userData!['isVerified']) {
+          switch (userData['role']) {
+            case 'Teacher':
+              if (context.mounted) {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  teacherVerifyRoute,
+                  (route) => false,
+                );
+              }
+            case 'Student':
+              if (context.mounted) {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  studentVerifyRoute,
+                  (route) => false,
+                );
+              }
+          }
+        } else {
+          switch (userData['role']) {
+            case 'Teacher':
+              if (context.mounted) {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  teacherHomeRoute,
+                  (route) => false,
+                );
+              }
+            case 'Student':
+              if (context.mounted) {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  studentHomeRoute,
+                  (route) => false,
+                );
+              }
+          }
         }
       } on FirebaseAuthException catch (e) {
         //TODO: Implement popup for each error

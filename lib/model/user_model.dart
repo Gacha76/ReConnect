@@ -3,8 +3,17 @@ class UserModel {
   String? role;
   String? uid;
   bool isVerified;
+  String? name;
+  String? rollNumber;
 
-  UserModel({this.uid, this.email, this.role, this.isVerified = false});
+  UserModel({
+    this.uid,
+    this.email,
+    this.role,
+    this.isVerified = false,
+    this.name,
+    this.rollNumber,
+  });
 
   // sending data
   Map<String, dynamic> toMap() {
@@ -13,6 +22,8 @@ class UserModel {
       'email': email,
       'role': role,
       'isVerified': isVerified,
+      'name': name,
+      'rollNumber': rollNumber,
     };
   }
 
@@ -23,6 +34,8 @@ class UserModel {
       email: map['email'],
       role: map['role'],
       isVerified: map['isVerified'],
+      name: map['name'],
+      rollNumber: map['rollNumber'],
     );
   }
 }
