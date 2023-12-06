@@ -144,18 +144,20 @@ class _TeacherVerifyPageState extends State<TeacherVerifyPage> {
                                 ),
                                 elevation: 5.0,
                                 height: 40,
-                                onPressed: () {
+                                onPressed: () async {
                                   setState(() {
                                     visible = true;
                                   });
                                   try {
-                                    _auth.signOut();
+                                    await _auth.signOut();
                                   } finally {
-                                    Navigator.of(context)
-                                        .pushNamedAndRemoveUntil(
-                                      loginRoute,
-                                      (route) => false,
-                                    );
+                                    if (context.mounted) {
+                                      Navigator.of(context)
+                                          .pushNamedAndRemoveUntil(
+                                        loginRoute,
+                                        (route) => false,
+                                      );
+                                    }
                                   }
                                 },
                                 color: Colors.blue,
@@ -167,6 +169,30 @@ class _TeacherVerifyPageState extends State<TeacherVerifyPage> {
                                 ),
                               ),
                             ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          MaterialButton(
+                            shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20.0)),
+                            ),
+                            elevation: 5.0,
+                            height: 40,
+                            onPressed: () {
+                              setState(() {
+                                visible = true;
+                              });
+                              deleteUser();
+                            },
+                            color: Colors.blue,
+                            child: const Text(
+                              "Delete Account",
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
                           ),
                           const SizedBox(
                             height: 10,
@@ -199,16 +225,30 @@ class _TeacherVerifyPageState extends State<TeacherVerifyPage> {
             .doc(_auth.currentUser!.uid)
             .update({'isVerified': true});
       } finally {
-        try {
-          await _auth.signOut();
-        } finally {
-          if (context.mounted) {
-            Navigator.of(context).pushNamedAndRemoveUntil(
-              teacherHomeRoute,
-              (route) => false,
-            );
-          }
+        if (context.mounted) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            teacherHomeRoute,
+            (route) => false,
+          );
         }
+      }
+    }
+  }
+
+  void deleteUser() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.uid)
+          .delete();
+      await user.delete();
+    } finally {
+      if (context.mounted) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          loginRoute,
+          (route) => false,
+        );
       }
     }
   }

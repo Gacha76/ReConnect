@@ -1,4 +1,6 @@
 import 'package:call_app/constants/routes.dart';
+import 'package:call_app/service/firebase_firestore_service.dart';
+import 'package:call_app/service/notification_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   final _store = FirebaseFirestore.instance;
+  static final notifications = NotificationsService();
 
   @override
   Widget build(BuildContext context) {
@@ -264,6 +267,7 @@ class _LoginPageState extends State<LoginPage> {
           email: email,
           password: password,
         );
+
         final userData = await _store
             .collection('users')
             .doc(_auth.currentUser!.uid)
@@ -297,6 +301,13 @@ class _LoginPageState extends State<LoginPage> {
                 );
               }
             case 'Student':
+              await FirebaseFirestoreService.updateUserData(
+                {'lastActive': DateTime.now()},
+              );
+
+              await notifications.requestPermission();
+              await notifications.getToken();
+              
               if (context.mounted) {
                 Navigator.of(context).pushNamedAndRemoveUntil(
                   studentHomeRoute,

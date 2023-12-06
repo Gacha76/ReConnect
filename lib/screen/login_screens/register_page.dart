@@ -1,5 +1,6 @@
 import 'package:call_app/constants/routes.dart';
 import 'package:call_app/model/user_model.dart';
+import 'package:call_app/service/notification_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController rollNumberController = TextEditingController();
+  static final notifications = NotificationsService();
   bool _isObscure = true;
   bool _isObscure2 = true;
   var options = [
@@ -444,6 +446,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   role,
                   name,
                   rollNumber,
+                  password,
                 )
               })
           .catchError((e) {
@@ -457,6 +460,7 @@ class _RegisterPageState extends State<RegisterPage> {
     String role,
     String name,
     String rollNumber,
+    String password,
   ) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
@@ -472,8 +476,15 @@ class _RegisterPageState extends State<RegisterPage> {
         .doc(user.uid)
         .set(userModel.toMap());
 
+    await notifications.requestPermission();
+    await notifications.getToken();
+
     switch (role) {
       case 'Teacher':
+        await _auth.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
         if (context.mounted) {
           Navigator.of(context).pushNamedAndRemoveUntil(
             teacherVerifyRoute,

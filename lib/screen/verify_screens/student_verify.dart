@@ -1,4 +1,5 @@
 import 'package:call_app/constants/routes.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -56,26 +57,53 @@ class _StudentVerifyPageState extends State<StudentVerifyPage> {
                         const SizedBox(
                           height: 30,
                         ),
-                        MaterialButton(
-                          shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20.0)),
-                          ),
-                          elevation: 5.0,
-                          height: 40,
-                          onPressed: () {
-                            setState(() {
-                              visible = true;
-                            });
-                            signout();
-                          },
-                          color: Colors.blue,
-                          child: const Text(
-                            "Logout",
-                            style: TextStyle(
-                              fontSize: 20,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            MaterialButton(
+                              shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                              ),
+                              elevation: 5.0,
+                              height: 40,
+                              onPressed: () {
+                                setState(() {
+                                  visible = true;
+                                });
+                                signout();
+                              },
+                              color: Colors.blue,
+                              child: const Text(
+                                "Logout",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                              ),
                             ),
-                          ),
+                            MaterialButton(
+                              shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                              ),
+                              elevation: 5.0,
+                              height: 40,
+                              onPressed: () {
+                                setState(() {
+                                  visible = true;
+                                });
+                                deleteUser();
+                              },
+                              color: Colors.blue,
+                              child: const Text(
+                                "Delete Account",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(
                           height: 10,
@@ -116,6 +144,24 @@ class _StudentVerifyPageState extends State<StudentVerifyPage> {
         print('Wrong password provided for that user.');
       } else {
         print(e.code);
+      }
+    }
+  }
+
+  void deleteUser() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.uid)
+          .delete();
+      await user.delete();
+    } finally {
+      if (context.mounted) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          loginRoute,
+          (route) => false,
+        );
       }
     }
   }
