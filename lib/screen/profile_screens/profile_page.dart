@@ -1,8 +1,10 @@
+import 'package:call_app/constants/routes.dart';
 import 'package:call_app/screen/profile_screens/edit_profile_page.dart';
 import 'package:call_app/widget/about_profile_widget.dart';
 import 'package:call_app/widget/profile_image_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -76,6 +78,21 @@ class _ProfilePageState extends State<ProfilePage> {
                   sectionName: 'About',
                   onPressed: () => editField('About'),
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextButton(
+                  onPressed: () {
+                    verifyDelete();
+                  },
+                  child: const Text(
+                    'Delete Account',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
               ],
             );
           } else if (snapshot.hasError) {
@@ -144,6 +161,69 @@ class _ProfilePageState extends State<ProfilePage> {
           .collection('verifiedUsers')
           .doc(user.uid)
           .update({field.toLowerCase(): newValue});
+    }
+  }
+
+  Future<void> verifyDelete() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Verification'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text("Are you sure you want to delete your account?"),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                deleteAccount();
+              },
+            ),
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> deleteAccount() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+
+      await FirebaseFirestore.instance
+          .collection('verifiedUsers')
+          .doc(user!.uid)
+          .delete();
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .delete();
+
+      await FirebaseStorage.instance
+          .ref()
+          .child('image/profile/${user.uid}')
+          .delete();
+
+      await user.delete();
+    } finally {
+      if (context.mounted) {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          loginRoute,
+          (route) => false,
+        );
+      }
     }
   }
 }

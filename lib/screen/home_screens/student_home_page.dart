@@ -1,7 +1,7 @@
 import 'package:call_app/constants/enum.dart';
 import 'package:call_app/constants/routes.dart';
 import 'package:call_app/screen/call_screens/join_call_page.dart';
-//import 'package:call_app/screen/firebase_chat_screens/firebase_chat_list_page.dart';
+import 'package:call_app/screen/firebase_chat_screens/firebase_chat_list_page.dart';
 import 'package:call_app/screen/firebase_chat_screens/firebase_user_list_page.dart';
 import 'package:call_app/screen/firebase_chat_screens/firebase_user_search_page.dart';
 import 'package:call_app/service/firebase_firestore_service.dart';
@@ -21,7 +21,7 @@ class _MainAppState extends State<StudentHomePage> {
   int _selectedIndex = 0;
   final _pages = [
     const FirebaseUserListPage(),
-    const Text('page-2'), //FirebaseChatListPage(),
+    const FirebaseChatListPage(),
     const JoinCallPage(),
     const ProfilePage(),
   ];

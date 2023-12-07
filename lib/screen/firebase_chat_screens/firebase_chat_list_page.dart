@@ -1,7 +1,7 @@
-/*import 'package:call_app/provider/firebase_provider.dart';
+import 'package:call_app/provider/firebase_provider.dart';
 import 'package:call_app/service/firebase_firestore_service.dart';
 import 'package:call_app/service/notification_service.dart';
-import 'package:call_app/widget/firebase_user_item_widget.dart';
+import 'package:call_app/widget/firebase_chat_item_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +57,7 @@ class _FirebaseChatListPageState extends State<FirebaseChatListPage>
     return Scaffold(
       body: Consumer<FirebaseProvider>(
         builder: (context, value, child) {
-          if (value.users.isNotEmpty) {
+          if (value.users.isEmpty) {
             return const Center(
               child: Text(
                 "Reconnect with an alumni...",
@@ -75,7 +75,7 @@ class _FirebaseChatListPageState extends State<FirebaseChatListPage>
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) => value.users[index].uid !=
                       FirebaseAuth.instance.currentUser?.uid
-                  ? FirebaseUserItemWidget(user: value.users[index])
+                  ? FirebaseChatItemWidget(user: value.users[index])
                   : const SizedBox(),
             );
           }
@@ -83,4 +83,4 @@ class _FirebaseChatListPageState extends State<FirebaseChatListPage>
       ),
     );
   }
-}*/
+}

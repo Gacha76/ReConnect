@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 class FirebaseProvider extends ChangeNotifier {
   ScrollController scrollController = ScrollController();
   List<FirebaseChatModel> users = [];
+  List<FirebaseChatModel> chatUsers = [];
   FirebaseChatModel? user;
   List<FirebaseMessageModel> messages = [];
   List<FirebaseChatModel> search = [];
@@ -67,5 +68,30 @@ class FirebaseProvider extends ChangeNotifier {
   Future<void> searchUser(String name) async {
     search = await FirebaseFirestoreService.searchUser(name);
     notifyListeners();
+  }
+
+  List<FirebaseChatModel> getAllChatUsers() {
+    List<FirebaseChatModel> result = [];
+
+    FirebaseFirestore.instance
+        .collection('verifiedUsers')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('chat')
+        .snapshots(includeMetadataChanges: true)
+        .listen((chatUsers) {
+      this.chatUsers = chatUsers.docs
+          .map((doc) => FirebaseChatModel.fromJson(doc.data()))
+          .toList();
+      notifyListeners();
+    });
+
+    if (chatUsers.isNotEmpty) {
+      for (int i = 0; i < chatUsers.length; i++) {
+        user = getUserById(chatUsers[i].uid);
+        result.add(user!);
+      }
+    }
+
+    return result;
   }
 }
