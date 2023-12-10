@@ -1,15 +1,15 @@
 # ReConnect
 
-##College Connect App
+## College Connect App
 
-##About:
+### About:
 This application aims to bridge the gap between alumni, current students, and faculty within the college community. It provides a platform for:
 
 Project Showcase: Students can showcase their projects, allowing for collaboration, feedback, and guidance from alumni and faculty.
 Knowledge Sharing: Alumni and faculty can share their expertise through articles, tutorials, empowering students with valuable insights.
 Community Building: The app facilitates communication and interaction through chat and call features, fostering a sense of belonging and support within the community.
 
-##Features:
+### Features:
 
 Project Showcase: Uploading and displaying projects with descriptions, images, and links.
 Resource Sharing: Sharing articles, tutorials, and other resources by alumni and faculty.
@@ -18,7 +18,7 @@ Chat: Dedicated chat rooms for different groups (e.g., year batches, clubs) and 
 Announcements: Keeping everyone updated with college events, deadlines, and important information.
 Profile Management: Creating profiles with personal information and interests.
 
-##Technology Stack:
+### Technology Stack:
 
 Frontend: Flutter (Dart)
 Backend: Dart and Firebase
