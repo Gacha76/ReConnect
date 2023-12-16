@@ -28,8 +28,8 @@ Profile Management: Creating profiles with personal information and interests.
 
 ### Technology Stack:
 
-Frontend: Flutter (Dart).
+Frontend: Flutter (Dart)
 
-Backend: Dart and Firebase.
+Backend: Dart and Firebase
 
-Database: Firebase.
+Database: Firebase
