@@ -8,7 +8,7 @@ This application aims to bridge the gap between alumni, current students, and fa
 
 Project Showcase: Students can showcase their projects, allowing for collaboration, feedback, and guidance from alumni and faculty.
 
-Knowledge Sharing: Alumni and faculty can share their expertise through articles, tutorials, empowering students with valuable insights.
+Knowledge Sharing: Alumni and faculty can share their expertise through articles, and tutorials, empowering students with valuable insights.
 
 Community Building: The app facilitates communication and interaction through chat and call features, fostering a sense of belonging and support within the community.
 
@@ -16,7 +16,7 @@ Community Building: The app facilitates communication and interaction through ch
 
 Project Showcase: Uploading and displaying projects with descriptions, images, and links.
 
-Resource Sharing: Sharing articles, tutorials, and other resources by alumni and faculty.
+Resource Sharing: Alumni and faculty share articles, tutorials, and other resources.
 
 Q&A Forum: Students can ask questions and receive guidance from alumni and faculty.
 
@@ -32,4 +32,4 @@ Frontend: Flutter (Dart)
 
 Backend: Dart and Firebase
 
-Database: Firebase
+Database: Firebase.
