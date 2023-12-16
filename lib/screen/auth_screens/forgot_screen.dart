@@ -19,6 +19,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -42,6 +43,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 40,
+                              color: Colors.white
                             ),
                           ),
                           const SizedBox(
@@ -52,6 +54,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
+                              color: Colors.white
                             ),
                           ),
                           const SizedBox(
@@ -127,11 +130,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                     (route) => false,
                                   );
                                 },
-                                color: Colors.blue,
+                                color: Color.fromARGB(255, 208, 47, 240),
                                 child: const Text(
                                   "Back to login",
                                   style: TextStyle(
                                     fontSize: 20,
+                                    color: Colors.white
                                   ),
                                 ),
                               ),
@@ -149,11 +153,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                   });
                                   forgotPassword(emailController.text);
                                 },
-                                color: Colors.blue,
+                                color: Color.fromARGB(255, 208, 47, 240),
                                 child: const Text(
                                   "Ok",
                                   style: TextStyle(
                                     fontSize: 20,
+                                    color: Colors.white
                                   ),
                                 ),
                               ),

@@ -19,6 +19,7 @@ class _JoinCallPageState extends State<JoinCallPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Column(
         children: [
           Center(
@@ -38,6 +39,7 @@ class _JoinCallPageState extends State<JoinCallPage> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 50,
+                        color: Colors.white
                       ),
                     ),
                     const SizedBox(
@@ -94,12 +96,12 @@ class _JoinCallPageState extends State<JoinCallPage> {
                           callIdController.text,
                         );
                       },
-                      color: Colors.blue,
+                      color: const Color.fromARGB(255, 208, 47, 240),
                       child: const Text(
                         "Join now",
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
+                          color: Colors.white,
                         ),
                       ),
                     ),

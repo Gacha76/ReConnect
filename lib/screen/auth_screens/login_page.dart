@@ -26,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -47,9 +48,9 @@ class _LoginPageState extends State<LoginPage> {
                         const Text(
                           "Login",
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 40,
-                          ),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 40,
+                              color: Colors.white),
                         ),
                         const SizedBox(
                           height: 20,
@@ -150,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                           keyboardType: TextInputType.emailAddress,
                         ),
                         const SizedBox(
-                          height: 10,
+                          height: 20,
                         ),
                         MaterialButton(
                           shape: const RoundedRectangleBorder(
@@ -170,17 +171,17 @@ class _LoginPageState extends State<LoginPage> {
                               (route) => false,
                             );
                           },
-                          color: Colors.blue,
+                          color: Color.fromARGB(255, 208, 47, 240),
                           child: const Text(
                             "Forgot Password ....",
                             style: TextStyle(
                               fontSize: 18,
-                              color: Colors.black,
+                              color: Colors.white,
                             ),
                           ),
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 15,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -188,8 +189,10 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             MaterialButton(
                               shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20.0))),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(20.0),
+                                ),
+                              ),
                               elevation: 5.0,
                               height: 40,
                               onPressed: () {
@@ -202,12 +205,11 @@ class _LoginPageState extends State<LoginPage> {
                                   passwordController.text,
                                 );
                               },
-                              color: Colors.blue,
+                              color: Color.fromARGB(255, 208, 47, 240),
                               child: const Text(
                                 "Login",
                                 style: TextStyle(
-                                  fontSize: 20,
-                                ),
+                                    fontSize: 20, color: Colors.white),
                               ),
                             ),
                             MaterialButton(
@@ -228,12 +230,11 @@ class _LoginPageState extends State<LoginPage> {
                                   (route) => false,
                                 );
                               },
-                              color: Colors.blue,
+                              color: Color.fromARGB(255, 208, 47, 240),
                               child: const Text(
                                 "Register Now",
                                 style: TextStyle(
-                                  fontSize: 20,
-                                ),
+                                    fontSize: 20, color: Colors.white),
                               ),
                             ),
                           ],
@@ -307,7 +308,7 @@ class _LoginPageState extends State<LoginPage> {
 
               await notifications.requestPermission();
               await notifications.getToken();
-              
+
               if (context.mounted) {
                 Navigator.of(context).pushNamedAndRemoveUntil(
                   studentHomeRoute,

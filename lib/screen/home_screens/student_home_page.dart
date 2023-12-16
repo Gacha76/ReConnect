@@ -4,6 +4,7 @@ import 'package:call_app/screen/call_screens/join_call_page.dart';
 import 'package:call_app/screen/firebase_chat_screens/firebase_chat_list_page.dart';
 import 'package:call_app/screen/firebase_chat_screens/firebase_user_list_page.dart';
 import 'package:call_app/screen/firebase_chat_screens/firebase_user_search_page.dart';
+import 'package:call_app/screen/post_screens/post_page.dart';
 import 'package:call_app/service/firebase_firestore_service.dart';
 import 'package:call_app/screen/profile_screens/profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,6 +23,7 @@ class _MainAppState extends State<StudentHomePage> {
   final _pages = [
     const FirebaseUserListPage(),
     const FirebaseChatListPage(),
+    const PostPage(),
     const JoinCallPage(),
     const ProfilePage(),
   ];
@@ -29,33 +31,36 @@ class _MainAppState extends State<StudentHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[900],
       appBar: AppBar(
-        title: const Text('Welcome'),
+        backgroundColor: Colors.black,
+        title: const Text('ReConnect'),
+        centerTitle: true,
         titleTextStyle: const TextStyle(color: Colors.white, fontSize: 23),
         actions: [
-          PopupMenuButton<StudentMenuAction>(
+          PopupMenuButton<MenuAction>(
             iconColor: Colors.white,
             onSelected: (value) async {
               switch (value) {
-                case StudentMenuAction.logout:
-                  signout();
-                case StudentMenuAction.search:
+                case MenuAction.search:
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (_) => const FirebaseUsersSearchPage(),
                     ),
                   );
+                case MenuAction.logout:
+                  signout();
               }
             },
             itemBuilder: (context) {
               return [
-                const PopupMenuItem<StudentMenuAction>(
-                  value: StudentMenuAction.logout,
-                  child: Text("Logout"),
-                ),
-                const PopupMenuItem<StudentMenuAction>(
-                  value: StudentMenuAction.search,
+                const PopupMenuItem<MenuAction>(
+                  value: MenuAction.search,
                   child: Text("Search"),
+                ),
+                const PopupMenuItem<MenuAction>(
+                  value: MenuAction.logout,
+                  child: Text("Logout"),
                 ),
               ];
             },
@@ -66,7 +71,9 @@ class _MainAppState extends State<StudentHomePage> {
         child: _pages[_selectedIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.blue,
+        selectedItemColor: Color.fromARGB(255, 208, 47, 240),
+        backgroundColor: Colors.grey[900],
+        unselectedItemColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         onTap: (value) {
           setState(() {
@@ -77,18 +84,42 @@ class _MainAppState extends State<StudentHomePage> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.connect_without_contact),
-            label: 'Connect',
+            activeIcon: Icon(
+              Icons.connect_without_contact,
+              color: Color.fromARGB(255, 208, 47, 240),
+            ),
+            label: "Connect",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat_bubble),
+            activeIcon: Icon(
+              Icons.chat_bubble,
+              color: Color.fromARGB(255, 208, 47, 240),
+            ),
             label: 'Chats',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.post_add_rounded),
+            activeIcon: Icon(
+              Icons.post_add_rounded,
+              color: Color.fromARGB(255, 208, 47, 240),
+            ),
+            label: 'Feed',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.call),
+            activeIcon: Icon(
+              Icons.call,
+              color: Color.fromARGB(255, 208, 47, 240),
+            ),
             label: 'Call',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_2),
+            activeIcon: Icon(
+              Icons.person_2,
+              color: Color.fromARGB(255, 208, 47, 240),
+            ),
             label: 'Profile',
           ),
         ],

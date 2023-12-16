@@ -36,6 +36,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -58,9 +59,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           const Text(
                             "Register Now",
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 40,
-                            ),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 40,
+                                color: Colors.white),
                           ),
                           const SizedBox(
                             height: 10,
@@ -318,11 +319,13 @@ class _RegisterPageState extends State<RegisterPage> {
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
+                                  color: Colors.white,
                                 ),
                               ),
                               DropdownButton<String>(
                                 isDense: true,
                                 isExpanded: false,
+                                dropdownColor: Colors.grey[900],
                                 items: options.map((String dropDownStringItem) {
                                   return DropdownMenuItem<String>(
                                     value: dropDownStringItem,
@@ -331,6 +334,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   );
@@ -369,12 +373,11 @@ class _RegisterPageState extends State<RegisterPage> {
                                     (route) => false,
                                   );
                                 },
-                                color: Colors.blue,
+                                color: Color.fromARGB(255, 208, 47, 240),
                                 child: const Text(
                                   "Back to login",
                                   style: TextStyle(
-                                    fontSize: 20,
-                                  ),
+                                      fontSize: 20, color: Colors.white),
                                 ),
                               ),
                               MaterialButton(
@@ -397,12 +400,11 @@ class _RegisterPageState extends State<RegisterPage> {
                                     rollNumberController.text,
                                   );
                                 },
-                                color: Colors.blue,
+                                color: Color.fromARGB(255, 208, 47, 240),
                                 child: const Text(
                                   "Register",
                                   style: TextStyle(
-                                    fontSize: 20,
-                                  ),
+                                      fontSize: 20, color: Colors.white),
                                 ),
                               ),
                             ],

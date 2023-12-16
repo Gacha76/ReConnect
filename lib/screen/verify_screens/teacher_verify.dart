@@ -1,7 +1,10 @@
 import 'package:call_app/constants/routes.dart';
+import 'package:call_app/model/firebase_chat_model.dart';
+import 'package:call_app/service/firebase_storage_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TeacherVerifyPage extends StatefulWidget {
   const TeacherVerifyPage({super.key});
@@ -17,6 +20,7 @@ class _TeacherVerifyPageState extends State<TeacherVerifyPage> {
   final _store = FirebaseFirestore.instance;
   final _formkey = GlobalKey<FormState>();
   final TextEditingController passPhrase = TextEditingController();
+  final currentUser = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
@@ -224,6 +228,33 @@ class _TeacherVerifyPageState extends State<TeacherVerifyPage> {
             .collection('users')
             .doc(_auth.currentUser!.uid)
             .update({'isVerified': true});
+
+        final userDoc = await _store
+            .collection('users')
+            .doc(currentUser.uid)
+            .get()
+            .then((value) => value.data());
+
+        final file =
+            (await rootBundle.load('assets/user.png')).buffer.asUint8List();
+
+        final image = await FirebaseStorageService.uploadImage(
+            file, 'image/profile/${_auth.currentUser!.uid}');
+
+        final user = FirebaseChatModel(
+          uid: currentUser.uid,
+          email: currentUser.email!,
+          name: userDoc!['name'],
+          about: "Teacher of IIIT Dharwad",
+          image: image,
+          isOnline: false,
+          lastActive: DateTime.now(),
+        );
+
+        await _store
+            .collection('verifiedUsers')
+            .doc(currentUser.uid)
+            .set(user.toJson());
       } finally {
         if (context.mounted) {
           Navigator.of(context).pushNamedAndRemoveUntil(

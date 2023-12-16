@@ -1,6 +1,4 @@
-enum StudentMenuAction { logout, search }
-
-enum TeacherMenuAction { logout, deleteAccount }
+enum MenuAction { logout, search }
 
 enum MessageType {
   text,
