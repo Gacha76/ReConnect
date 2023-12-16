@@ -18,7 +18,7 @@ class AboutProfileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: Colors.grey[900],
         borderRadius: BorderRadius.circular(8),
       ),
       padding: const EdgeInsets.only(
@@ -38,26 +38,31 @@ class AboutProfileWidget extends StatelessWidget {
             children: [
               Text(
                 sectionName,
-                style: TextStyle(
-                  color: Colors.grey[500],
+                style: const TextStyle(
+                  color: Colors.white,
                 ),
               ),
-              isEdit ? IconButton(
-                onPressed: onPressed,
-                icon: Icon(
-                  Icons.edit,
-                  color: Colors.grey[400],
-                ),
-              ) : IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.settings,
-                  color: Colors.grey[400],
-                ),
-              ),
+              isEdit
+                  ? IconButton(
+                      onPressed: onPressed,
+                      icon: const Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                      ),
+                    )
+                  : IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.settings,
+                        color: Colors.white,
+                      ),
+                    ),
             ],
           ),
-          Text(text),
+          Text(
+            text,
+            style: const TextStyle(color: Colors.white),
+          ),
         ],
       ),
     );

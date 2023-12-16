@@ -26,13 +26,14 @@ class _FirebaseUsersSearchPageState extends State<FirebaseUsersSearchPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.black,
           elevation: 0,
           centerTitle: true,
+          iconTheme: const IconThemeData(color: Colors.white),
           foregroundColor: Colors.black,
           title: const Text(
             'Users Search',
-            style: TextStyle(fontSize: 25),
+            style: TextStyle(fontSize: 25,color: Colors.white),
           ),
         ),
         body: Padding(

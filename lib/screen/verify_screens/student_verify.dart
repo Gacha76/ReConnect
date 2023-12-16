@@ -17,6 +17,7 @@ class _StudentVerifyPageState extends State<StudentVerifyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -38,6 +39,7 @@ class _StudentVerifyPageState extends State<StudentVerifyPage> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 40,
+                            color: Colors.white,
                           ),
                         ),
                         const Text(
@@ -45,6 +47,7 @@ class _StudentVerifyPageState extends State<StudentVerifyPage> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 40,
+                            color: Colors.white,
                           ),
                         ),
                         const Text(
@@ -52,6 +55,7 @@ class _StudentVerifyPageState extends State<StudentVerifyPage> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 40,
+                            color: Colors.white,
                           ),
                         ),
                         const SizedBox(
@@ -74,11 +78,12 @@ class _StudentVerifyPageState extends State<StudentVerifyPage> {
                                 });
                                 signout();
                               },
-                              color: Colors.blue,
+                              color: const Color.fromARGB(255, 208, 47, 240),
                               child: const Text(
                                 "Logout",
                                 style: TextStyle(
                                   fontSize: 20,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
@@ -95,11 +100,12 @@ class _StudentVerifyPageState extends State<StudentVerifyPage> {
                                 });
                                 deleteUser();
                               },
-                              color: Colors.blue,
+                              color: const Color.fromARGB(255, 208, 47, 240),
                               child: const Text(
                                 "Delete Account",
                                 style: TextStyle(
                                   fontSize: 20,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),

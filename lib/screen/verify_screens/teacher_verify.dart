@@ -25,6 +25,7 @@ class _TeacherVerifyPageState extends State<TeacherVerifyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -48,6 +49,7 @@ class _TeacherVerifyPageState extends State<TeacherVerifyPage> {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 25,
+                              color: Colors.white,
                             ),
                           ),
                           const SizedBox(
@@ -133,11 +135,12 @@ class _TeacherVerifyPageState extends State<TeacherVerifyPage> {
                                   });
                                   verifyTeacher();
                                 },
-                                color: Colors.blue,
+                                color: const Color.fromARGB(255, 208, 47, 240),
                                 child: const Text(
                                   "Verify",
                                   style: TextStyle(
                                     fontSize: 20,
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
@@ -164,11 +167,12 @@ class _TeacherVerifyPageState extends State<TeacherVerifyPage> {
                                     }
                                   }
                                 },
-                                color: Colors.blue,
+                                color: const Color.fromARGB(255, 208, 47, 240),
                                 child: const Text(
                                   "Back",
                                   style: TextStyle(
                                     fontSize: 20,
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
@@ -190,11 +194,12 @@ class _TeacherVerifyPageState extends State<TeacherVerifyPage> {
                               });
                               deleteUser();
                             },
-                            color: Colors.blue,
+                            color: const Color.fromARGB(255, 208, 47, 240),
                             child: const Text(
                               "Delete Account",
                               style: TextStyle(
                                 fontSize: 20,
+                                color: Colors.white,
                               ),
                             ),
                           ),

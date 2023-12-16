@@ -20,6 +20,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
             .collection("verifiedUsers")
@@ -54,6 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 20,
+                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(
@@ -65,6 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     "My Details",
                     style: TextStyle(
                       fontSize: 20,
+                      color: Colors.white,
                     ),
                   ),
                 ),

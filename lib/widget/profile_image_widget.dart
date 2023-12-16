@@ -21,7 +21,9 @@ class ProfileWidget extends StatelessWidget {
           Positioned(
             bottom: 0,
             right: 4,
-            child: buildEditIcon(Colors.blue),
+            child: buildEditIcon(
+              const Color.fromARGB(255, 208, 47, 240),
+            ),
           ),
         ],
       ),
@@ -33,7 +35,7 @@ class ProfileWidget extends StatelessWidget {
 
     return ClipOval(
       child: Material(
-        color: Colors.transparent,
+        color: Colors.white,
         child: Ink.image(
           image: image,
           fit: BoxFit.cover,

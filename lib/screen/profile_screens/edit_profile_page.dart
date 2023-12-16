@@ -22,9 +22,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
@@ -56,6 +58,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 20,
+                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(
@@ -67,6 +70,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     "My Details",
                     style: TextStyle(
                       fontSize: 20,
+                      color: Colors.white,
                     ),
                   ),
                 ),

@@ -55,6 +55,7 @@ class _FirebaseChatListPageState extends State<FirebaseChatListPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Consumer<FirebaseProvider>(
         builder: (context, value, child) {
           if (value.users.isEmpty) {
@@ -64,6 +65,7 @@ class _FirebaseChatListPageState extends State<FirebaseChatListPage>
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
+                  color: Colors.white
                 ),
               ),
             );

@@ -16,6 +16,7 @@ class _FirebaseChatItemWidgetState extends State<FirebaseChatItemWidget> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(

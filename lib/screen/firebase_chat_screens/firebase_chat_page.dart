@@ -25,6 +25,7 @@ class _FirebaseChatPageState extends State<FirebaseChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: _buildAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -41,7 +42,8 @@ class _FirebaseChatPageState extends State<FirebaseChatPage> {
   AppBar _buildAppBar() => AppBar(
         elevation: 0,
         foregroundColor: Colors.black,
-        backgroundColor: Colors.transparent,
+        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: Colors.black,
         title: Consumer<FirebaseProvider>(
           builder: (context, value, child) => value.user != null
               ? Row(
@@ -56,7 +58,7 @@ class _FirebaseChatPageState extends State<FirebaseChatPage> {
                         Text(
                           value.user!.name,
                           style: const TextStyle(
-                            color: Colors.black,
+                            color: Colors.white,
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),

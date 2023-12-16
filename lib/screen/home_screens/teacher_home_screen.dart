@@ -34,6 +34,7 @@ class _TeacherHomePageState extends State<TeacherHomePage> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: const Text('ReConnect'),
+        centerTitle: true,
         titleTextStyle: const TextStyle(color: Colors.white, fontSize: 23),
         actions: [
           PopupMenuButton<MenuAction>(
